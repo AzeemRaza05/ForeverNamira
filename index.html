@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Love Story</title>
+
+<style>
+body{
+margin:0;
+font-family:'Georgia',serif;
+background:linear-gradient(to bottom,#8b0000,#ff6f91);
+color:white;
+text-align:center;
+overflow-x:hidden;
+}
+
+#protected{display:none}
+
+/* HEADER */
+header{padding:60px 20px}
+h1{
+font-size:3em;
+animation:glow 2s infinite alternate;
+}
+.quote{font-style:italic;font-size:1.2em}
+
+@keyframes glow{
+from{text-shadow:0 0 10px #ffb6c1}
+to{text-shadow:0 0 25px #fff,0 0 40px #ff1493}
+}
+
+/* TYPEWRITER */
+.typewriter{
+overflow:hidden;
+border-right:3px solid white;
+white-space:nowrap;
+animation:typing 4s steps(40,end),blink .7s infinite;
+}
+@keyframes typing{from{width:0}to{width:100%}}
+@keyframes blink{50%{border-color:transparent}}
+
+/* SECTION */
+section{
+padding:40px;
+background:rgba(255,255,255,.1);
+margin:20px;
+border-radius:12px;
+}
+
+/* HEART FLOAT */
+.heart{
+position:fixed;
+bottom:-50px;
+font-size:2em;
+animation:floatUp 10s infinite;
+}
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-100vh);opacity:0}
+}
+
+/* JOURNEY CARDS */
+.journey-container,
+.gallery-sections{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+.journey-card,
+.gallery-card{
+background:rgba(255,255,255,.25);
+padding:20px 30px;
+border-radius:15px;
+cursor:pointer;
+transition:.3s;
+}
+.journey-card:hover,
+.gallery-card:hover{
+transform:scale(1.1);
+background:rgba(255,255,255,.4);
+}
+
+/* MODAL */
+.modal{
+display:none;
+position:fixed;
+z-index:999;
+left:0;top:0;
+width:100%;height:100%;
+background:rgba(0,0,0,.7);
+}
+.modal-content{
+background:linear-gradient(135deg,#ff6f91,#ffc0cb);
+margin:8% auto;
+padding:30px;
+width:90%;
+max-width:650px;
+border-radius:15px;
+}
+.close{
+float:right;
+font-size:28px;
+cursor:pointer;
+}
+
+/* SLIDESHOW */
+.slideshow{
+position:relative;
+height:350px;
+overflow:hidden;
+border-radius:12px;
+}
+.slide{
+position:absolute;
+width:100%;
+height:100%;
+opacity:0;
+transition:opacity 1s ease;
+}
+.slide img{
+width:100%;
+height:100%;
+border-radius:12px;
+ object-fit:contain;   /* shows full image */
+  background:black; 
+}
+.slide.active{opacity:1}
+
+/* PETALS */
+.petal{
+position:fixed;
+top:-20px;
+font-size:18px;
+animation:fall linear infinite;
+}
+@keyframes fall{
+to{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
+
+input,button{
+padding:10px;margin:5px;border-radius:5px;
+}
+
+.love-letter{
+  line-height:1.8;
+  font-size:1.15em;
+  max-width:750px;
+  margin:auto;
+}
+
+.love-letter h2{
+  margin-bottom:25px;
+}
+
+.love-letter .highlight{
+  font-size:1.4em;
+  font-style:italic;
+  margin:25px 0;
+  text-shadow:0 0 10px #ffd6e7;
+}
+
+.love-letter .signature{
+  margin-top:30px;
+  font-size:1.3em;
+  font-style:italic;
+}
+
+/* Button */
+.surprise-btn {
+    padding: 14px 28px;
+    font-size: 18px;
+    background: linear-gradient(45deg, #ff4d6d, #ff85a1);
+    border: none;
+    border-radius: 40px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(255, 77, 109, 0.6);
+    transition: 0.3s;
+}
+.surprise-btn:hover {
+    transform: scale(1.08);
+}
+
+/* Popup */
+.surprise-popup {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #000 0%, #050014 100%);
+    z-index: 9999;
+    overflow: hidden;
+}
+
+/* Close button */
+.close-surprise {
+    position: absolute;
+    right: 30px;
+    top: 20px;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 10001;
+}
+
+/* Canvas full screen */
+#fireworksCanvas {
+    position: absolute;
+    inset: 0;
+}
+
+/* Floating messages */
+.floating-messages {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.love-text {
+    position: absolute;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 500;
+    animation: floatUp linear forwards;
+    text-shadow: 0 0 12px #ff4d6d;
+}
+
+@keyframes floatUp {
+    from {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+    10% { opacity: 1; }
+    to {
+        transform: translateY(-20vh);
+        opacity: 0;
+    }
+}
+
+.spotify-playlist{
+  text-align:center;
+  padding:60px 20px;
+}
+
+.spotify-song{
+  max-width:500px;
+  margin:30px auto;
+}
+
+
+/*login ui*/
+/* Full screen romantic background */
+/*body{
+  background:linear-gradient(135deg,#ff9ecf,#ffd6ec,#ffe9f5);
+  min-height:100vh;
+  font-family:'Poppins',sans-serif;
+}*/
+
+/* Target your existing login container 
+   (change class name if yours is different) */
+.login-container,
+.login-box,
+#login,
+.login{
+  max-width:360px;
+  margin:80px auto;
+  padding:40px 35px;
+  text-align:center;
+  border-radius:20px;
+
+  /* glassmorphism */
+  backdrop-filter:blur(18px);
+  background:rgba(255,255,255,0.25);
+  box-shadow:0 15px 40px rgba(0,0,0,0.15);
+  border:1px solid rgba(255,255,255,0.4);
+}
+
+/* Heading */
+.login-container h1,
+.login-container h2{
+  color:#fff;
+  margin-bottom:15px;
+}
+
+/* Inputs */
+.login-container input,
+.login-box input,
+.login input{
+  width:100%;
+  padding:12px 15px;
+  margin:10px 0;
+  border-radius:12px;
+  border:none;
+  outline:none;
+  background:rgba(255,255,255,0.75);
+  transition:0.3s;
+}
+
+/* Input focus glow */
+.login-container input:focus{
+  background:#fff;
+  box-shadow:0 0 12px rgba(255,120,180,0.6);
+}
+
+/* Login button */
+.login-container button,
+.login-container input[type="submit"]{
+  width:100%;
+  padding:12px;
+  margin-top:15px;
+  border:none;
+  border-radius:12px;
+  background:linear-gradient(45deg,#ff4fa3,#ff87c5);
+  color:white;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+/* Button hover */
+.login-container button:hover,
+.login-container input[type="submit"]:hover{
+  transform:translateY(-2px);
+  box-shadow:0 8px 20px rgba(255,70,150,0.5);
+}
+
+
+/*login buttons*/
+/* DATE PICKER */
+/* DATE INPUT FULL RESTYLE */
+.meetUpDate{ border-radius: 22px !important;}
+
+input[type="date"]{
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+
+  padding:12px 15px;
+  border-radius:12px;
+  border:none;
+  outline:none;
+  font-size:15px;
+  font-family:inherit;
+
+  background:rgba(255,255,255,0.9);
+  box-shadow:0 5px 15px rgba(0,0,0,0.1);
+  transition:0.3s ease;
+}
+
+/* glow on focus */
+input[type="date"]:focus{
+  background:#fff;
+  box-shadow:0 0 15px rgba(255,120,180,0.7);
+}
+
+/* calendar icon styling */
+input[type="date"]::-webkit-calendar-picker-indicator{
+  cursor:pointer;
+  border-radius:50%;
+  padding:5px;
+  filter:invert(45%) sepia(80%) saturate(500%) hue-rotate(300deg);
+  transition:0.3s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover{
+  transform:scale(1.2);
+}
+
+
+/* UNLOCK BUTTON */
+button,
+input[type="submit"]{
+  padding:12px 25px;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  font-weight:600;
+  color:white;
+  cursor:pointer;
+
+  background:linear-gradient(45deg,#ff4fa3,#ff87c5);
+  box-shadow:0 8px 20px rgba(255,70,150,0.4);
+  transition:all 0.3s ease;
+}
+
+/* Hover animation */
+button:hover,
+input[type="submit"]:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 12px 25px rgba(255,70,150,0.6);
+}
+
+/* Click press effect */
+button:active,
+input[type="submit"]:active{
+  transform:scale(0.97);
+}
+
+
+</style>
+</head>
+
+<body>
+
+<audio id="loveMusic" loop>
+<source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3">
+</audio>
+
+<!-- LOGIN -->
+<div id="login">
+<h2>Pick the Special Date to Unlock ❤️</h2>
+<input type="date" class="meetUpDate" id="dateInput">
+<button onclick="checkDate()">Unlock</button>
+</div>
+
+<div id="protected">
+
+<header>
+<h1>Our Love Story</h1>
+<p class="quote typewriter">Every love story is beautiful, but ours is my favorite...</p>
+</header>
+
+<!-- JOURNEY -->
+<section>
+<h2>Our Journey</h2>
+<div class="journey-container">
+<div class="journey-card" onclick="openModal('firstDate')">💫 First Date</div>
+<div class="journey-card" onclick="openModal('secondDate')">🌹 Second Date</div>
+<div class="journey-card" onclick="openModal('engagement')">💍 Engagement</div>
+</div>
+</section>
+
+<!-- GALLERY -->
+<section>
+<h2>Gallery</h2>
+<div class="gallery-sections">
+<div class="gallery-card" onclick="openModal('gallery1')">💫 First Date Memories</div>
+<div class="gallery-card" onclick="openModal('gallery2')">🌹 Second Date Memories</div>
+<div class="gallery-card" onclick="openModal('gallery3')">💍 Engagement Memories</div>
+</div>
+</section>
+
+<!-- LOVE NOTES -->
+<section class="love-letter">
+  <h2>A Little Note From My Heart 💌</h2>
+
+  <p>
+    If you ever read this on a quiet day…  
+    or on a night when the world feels still…  
+    I want you to remember one simple truth —
+  </p>
+
+  <p class="highlight">
+    Loving you has been the most beautiful chapter of my life.
+  </p>
+
+  <p>
+    Every smile we shared, every moment we lived, every memory we created —
+    they are not just memories… they are pieces of my soul that belong to you.
+  </p>
+
+  <p>
+    No matter where life takes us, no matter how many seasons pass,
+    my heart will always find its way back to you.
+  </p>
+
+  <p class="signature">
+    Forever yours ❤️
+  </p>
+</section>
+
+
+<section>
+<h2>Valentine’s Surprise</h2>
+<button id="valentineSurpriseBtn" class="surprise-btn">
+    💖 Valentine Surprise
+</button>
+</section>
+
+<section class="spotify-playlist">
+  <h2>Our Love Playlist on Spotify 💚</h2>
+
+   <div class="spotify-song">
+    <h3>Samjhawan</h3>
+    <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/album/6XgV61OBbr8gHlXdAQ89Sj?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  </div>
+
+   <div class="spotify-song">
+    <h3>Aapki Nazron Ne Samjha</h3>
+    <!-- Paste Spotify embed link for this song here -->
+   <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/11IpCZVWahQVaRNoNX5WbF?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  </div>
+
+  <div class="spotify-song">
+    <h3>Love Me Like You Do</h3>
+   <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/3zHq9ouUJQFQRf3cm1rRLu?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  </div>
+
+</section>
+
+
+<footer>
+<p>Wherever life leads us, I know it will be beautiful Insha Allah… we will walk every step together.❤️</p>
+<p>I'll choose you forever.❤️</p>
+</footer>
+
+<div class="heart" style="left:10%">❤️</div>
+<div class="heart" style="left:30%">💖</div>
+<div class="heart" style="left:50%">💕</div>
+<div class="heart" style="left:70%">💞</div>
+<div class="heart" style="left:90%">💓</div>
+
+</div>
+
+<!-- STORY MODALS -->
+<div id="firstDate" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal('firstDate')">&times;</span>
+<h2>Our First Date 💫</h2>
+<p>That day, somewhere between warm conversations and quiet smiles, something beautiful began.
+A simple café, shared laughter, and a moment that felt effortlessly right.</p>
+
+<p>Flowers in my hand… happiness in your eyes… and memories captured in little frames of time.
+But what I cherish most is not what we did — it’s what we felt.</p>
+
+<p>Because that day… without saying much, our hearts understood something special had just begun.</p>
+</p>
+</div>
+</div>
+
+<div id="secondDate" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal('secondDate')">&times;</span>
+<h2>Our Second Date 🌹</h2>
+<p>Laughter felt natural. Love quietly started growing.</p>
+<p>Our second date felt like happiness unfolding in the simplest moments.
+One shake… two straws… endless laughter… and memories captured in little snapshots of joy.</p>
+<p>And then came the corn fritters… far more than we expected.
+You couldn’t finish them… so I did — and somehow, that made the moment even more special.It gave us another reason to laugh, to tease, to stay a little longer.</p>
+<p>We left fuller than expected… not just from food, but from the warmth of being together — lost in beautiful conversations that made the world around us disappear.</p>
+<p>And somewhere between laughter, shared bites, and heartfelt talks… our bond grew deeper, stronger, and more real than ever before.</p>
+</div>
+</div>
+
+<div id="engagement" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal('engagement')">&times;</span>
+<h2>Our Engagement 💍</h2>
+<p>The moment we promised forever.</p>
+<p>Our families brought us together… and with full hearts, we said yes to this beautiful beginning.The day everything felt real… certain… meant to be.</p>
+<p>When our family came to your home, you looked so beautiful… a little nervous, yet glowing in the most special way.
+Then when your family came to mine, the air was filled with smiles, laughter, playful jokes, and countless blessings.</p
+<p>Two families celebrating… one bond growing stronger with every ritual, every photograph, every shared moment.</p
+<p>Two families… one happiness.
+Two hearts… one promise.</p>
+<p>And when it was all done, a deep sukoon settled within me — the kind I didn’t even realize I had been missing… until I found it with you.</p>
+
+
+</div>
+</div>
+
+<!-- GALLERY SLIDESHOW MODALS -->
+<div id="gallery1" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal('gallery1')">&times;</span>
+<h2>First Date Memories</h2>
+<div class="slideshow">
+<div class="slide active"><img src="images/FirstMeet/1000110797.jpg"></div>
+<div class="slide"><img src="images/FirstMeet/1000110798.jpg"></div>
+<div class="slide"><img src="images/FirstMeet/1000110799.jpg"></div>
+</div>
+</div>
+</div>
+
+<div id="gallery2" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal('gallery2')">&times;</span>
+<h2>Second Date Memories</h2>
+<div class="slideshow">
+<div class="slide active"><img src="images/SecondMeet/Snapchat-498956094.jpg"></div>
+<div class="slide"><img src="images/SecondMeet/Snapchat-1114816780.jpg"></div>
+<div class="slide"><img src="images/SecondMeet/Snapchat-1162666953.jpg"></div>
+<div class="slide"><img src="images/SecondMeet/Snapchat-1538547121.jpg"></div>
+</div>
+</div>
+</div>
+
+<div id="gallery3" class="modal">
+<div class="modal-content">
+<span class="close" onclick="closeModal('gallery3')">&times;</span>
+<h2>Engagement Memories</h2>
+<div class="slideshow">
+<div class="slide active"><img src="images/Engagement/1000082582.jpg"></div>
+<div class="slide"><img src="images/Engagement/1000082669.jpg"></div>
+<div class="slide"><img src="images/Engagement/1000082684.jpg"></div>
+<div class="slide"><img src="images/Engagement/1000082543.jpg"></div>
+<div class="slide"><img src="images/Engagement/1000082558.jpg"></div>
+</div>
+</div>
+</div>
+
+<!-- Valentine Surprise Popup -->
+<div id="surprisePopup" class="surprise-popup">
+    <span class="close-surprise">&times;</span>
+
+    <canvas id="fireworksCanvas"></canvas>
+
+    <div class="floating-messages" id="floatingMessages"></div>
+</div>
+
+
+
+<script>
+function checkDate(){
+var input=document.getElementById("dateInput").value;
+var decoded=atob("MjAyNS0wOS0yNw==");
+if(input===decoded){
+document.getElementById("protected").style.display="block";
+document.getElementById("login").style.display="none";
+startPetals();
+}
+else alert("Incorrect date ❤️");
+}
+
+function openModal(id){
+document.getElementById(id).style.display="block";
+document.getElementById("loveMusic").play();
+}
+
+function closeModal(id){
+document.getElementById(id).style.display="none";
+}
+
+window.onclick=function(e){
+document.querySelectorAll(".modal").forEach(m=>{
+if(e.target===m)m.style.display="none";
+});
+};
+
+/* AUTOPLAY SLIDESHOW */
+document.querySelectorAll(".slideshow").forEach(slideshow=>{
+let slides=slideshow.querySelectorAll(".slide");
+let index=0;
+setInterval(()=>{
+slides[index].classList.remove("active");
+index=(index+1)%slides.length;
+slides[index].classList.add("active");
+},3000);
+});
+
+/* PETALS */
+function startPetals(){
+setInterval(()=>{
+let p=document.createElement("div");
+p.className="petal";
+p.innerHTML="🌸";
+p.style.left=Math.random()*100+"vw";
+p.style.animationDuration=(5+Math.random()*5)+"s";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),10000);
+},300);
+}
+
+
+
+</script>
+<script>
+const btn = document.getElementById("valentineSurpriseBtn");
+const popup = document.getElementById("surprisePopup");
+const closeBtn = document.querySelector(".close-surprise");
+const canvas = document.getElementById("fireworksCanvas");
+const ctx = canvas.getContext("2d");
+const floatingContainer = document.getElementById("floatingMessages");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+/* ---------------- POPUP CONTROL ---------------- */
+
+btn.onclick = () => {
+    popup.style.display = "block";
+    startFireworks();
+    startFloatingMessages();
+};
+
+closeBtn.onclick = () => {
+    popup.style.display = "none";
+    cancelAnimationFrame(animationId);
+    floatingContainer.innerHTML = "";
+};
+
+/* ---------------- FIREWORKS ---------------- */
+
+let particles = [];
+let animationId;
+
+function createFirework() {
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height * 0.5;
+
+    for (let i = 0; i < 80; i++) {
+        particles.push({
+            x,
+            y,
+            angle: Math.random() * Math.PI * 2,
+            speed: Math.random() * 4 + 2,
+            radius: 2,
+            life: 100
+        });
+    }
+}
+
+function startFireworks() {
+    function animate() {
+        ctx.fillStyle = "rgba(0,0,0,0.2)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        if (Math.random() < 0.05) createFirework();
+
+        particles.forEach((p, i) => {
+            p.x += Math.cos(p.angle) * p.speed;
+            p.y += Math.sin(p.angle) * p.speed;
+            p.life--;
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = `hsl(${Math.random()*360},100%,60%)`;
+            ctx.fill();
+
+            if (p.life <= 0) particles.splice(i, 1);
+        });
+
+        animationId = requestAnimationFrame(animate);
+    }
+    animate();
+}
+
+/* ---------------- FLOATING LOVE TEXT ---------------- */
+
+const messages = [
+    "I Love You ❤️",
+    "Forever Yours 💖",
+    "You Are My Everything ✨",
+    "My Heart Beats For You 💓",
+    "Endless Love 💞",
+    "You Complete Me 🌹"
+];
+
+function startFloatingMessages() {
+    setInterval(() => {
+        if (popup.style.display !== "block") return;
+
+        const msg = document.createElement("div");
+        msg.className = "love-text";
+        msg.innerText = messages[Math.floor(Math.random() * messages.length)];
+
+        msg.style.left = Math.random() * 100 + "vw";
+        msg.style.animationDuration = (4 + Math.random() * 4) + "s";
+
+        floatingContainer.appendChild(msg);
+
+        setTimeout(() => msg.remove(), 8000);
+    }, 600);
+}
+</script>
+
+
+</body>
+</html>
